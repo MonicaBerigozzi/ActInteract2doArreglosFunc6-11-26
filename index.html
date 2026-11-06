@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Interactiva: Torneo de E-Sports</title>
+    <!-- Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* Personalización de inputs para que se vean bien dentro de los bloques de código */
+        .code-input {
+            background-color: #1f2937; /* gray-800 */
+            color: #34d399; /* emerald-400 */
+            border: 1px solid #4b5563; /* gray-600 */
+            border-radius: 0.25rem;
+            padding: 0.1rem 0.4rem;
+            text-align: center;
+            font-family: monospace;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .code-input:focus {
+            border-color: #10b981; /* emerald-500 */
+            box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+        }
+        /* Evita que los elementos se corten a la mitad al saltar de página en el PDF */
+        .pdf-avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        /* Estilos generales para inputs de texto */
+        input[type="text"], textarea, select {
+            background-color: #374151;
+            color: #f3f4f6;
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            outline: none;
+        }
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        /* REGLAS PARA IMPRESIÓN / EXPORTACIÓN A PDF */
+        @media print {
+            /* Forzar fondo blanco y texto negro para legibilidad y ahorro de tinta */
+            body, .bg-gray-900, .bg-gray-800, .bg-gray-950, .bg-gray-750 {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            
+            /* Quitar sombras, brillos y bordes innecesarios */
+            * {
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+            
+            /* Arreglar los títulos con degradado de colores */
+            h1.bg-clip-text {
+                background: none !important;
+                -webkit-text-fill-color: #000000 !important;
+                color: #000000 !important;
+            }
+            .text-transparent {
+                color: #000000 !important;
+            }
+            
+            /* Asegurar que las secciones tengan borde y no se corten por la mitad */
+            section {
+                border: 1px solid #cccccc !important;
+                margin-bottom: 2rem !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            
+            /* Normalizar todos los textos de colores que se usan en código e íconos */
+            .text-green-400, .text-blue-400, .text-gray-400, .text-gray-200, .text-gray-300, .text-purple-400, .text-yellow-300, .text-green-300, .text-gray-500 {
+                color: #000000 !important;
+            }
+            
+            /* Ajustar los campos a completar para que se vean como formularios convencionales */
+            input[type="text"], textarea, select, .code-input {
+                background-color: #ffffff !important;
+                border: 1px solid #000000 !important;
+                color: #000000 !important;
+            }
+            
+            /* Ajustar las viñetas / números redondos */
+            .bg-green-500 {
+                background-color: #e5e7eb !important;
+                color: #000000 !important;
+                border: 1px solid #000000 !important;
+            }
+            svg {
+                stroke: #000000 !important;
+            }
+            
+            /* Ocultar el botón al imprimir */
+            #btn-download {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans min-h-screen pb-20">
+
+    <div id="pdf-content" class="max-w-4xl mx-auto pt-8 px-4 sm:px-6">
+        
+        <!-- Header -->
+        <header class="text-center mb-10 pdf-avoid-break">
+            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-4 tracking-tight uppercase">
+                Torneo de E-Sports
+            </h1>
+            <h2 class="text-xl text-gray-400 font-medium">Análisis de Datos con Arreglos</h2>
+        </header>
+
+        <!-- Datos del Alumno -->
+        <section class="bg-gray-800 rounded-xl p-6 mb-8 border border-gray-700 shadow-lg pdf-avoid-break">
+            <h3 class="text-xl font-bold text-green-400 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                Datos del Estudiante
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Apellido</label>
+                    <input type="text" id="apellido" placeholder="Ingresa tu apellido">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-400 mb-1">Curso / Año</label>
+                    <input type="text" id="curso" placeholder="Ej: 2do B">
+                </div>
+            </div>
+        </section>
+
+        <!-- Momento 1: Repaso Teórico -->
+        <section class="bg-gray-800 rounded-xl p-6 mb-8 border border-gray-700 shadow-lg pdf-avoid-break">
+            <h3 class="text-xl font-bold text-green-400 mb-2 flex items-center">
+                <span class="bg-green-500 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-black">1</span>
+                Momento 1: Repaso Teórico
+            </h3>
+            <p class="text-gray-400 mb-6 text-sm">Une cada concepto de la izquierda con su definición correcta de la derecha seleccionando la letra adecuada.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Conceptos -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between bg-gray-750 p-3 rounded border border-gray-700">
+                        <span class="font-medium">1. Arreglo (Array/Vector)</span>
+                        <select class="w-20 py-1 px-2 text-center bg-gray-900 border-gray-600">
+                            <option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between bg-gray-750 p-3 rounded border border-gray-700">
+                        <span class="font-medium">2. Índice / Subíndice</span>
+                        <select class="w-20 py-1 px-2 text-center bg-gray-900 border-gray-600">
+                            <option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between bg-gray-750 p-3 rounded border border-gray-700">
+                        <span class="font-medium">3. Flotantes (Float)</span>
+                        <select class="w-20 py-1 px-2 text-center bg-gray-900 border-gray-600">
+                            <option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between bg-gray-750 p-3 rounded border border-gray-700">
+                        <span class="font-medium">4. Declaración de Arreglo</span>
+                        <select class="w-20 py-1 px-2 text-center bg-gray-900 border-gray-600">
+                            <option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between bg-gray-750 p-3 rounded border border-gray-700">
+                        <span class="font-medium">5. Acumulación de datos</span>
+                        <select class="w-20 py-1 px-2 text-center bg-gray-900 border-gray-600">
+                            <option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Definiciones -->
+                <div class="space-y-4 text-sm text-gray-300">
+                    <div class="p-3 border-l-4 border-blue-500 bg-gray-800 rounded">
+                        <span class="font-bold text-blue-400 mr-2">A.</span> Número que indica la posición de cada elemento, comienza en 0 y termina en Tamaño-1.
+                    </div>
+                    <div class="p-3 border-l-4 border-blue-500 bg-gray-800 rounded font-mono">
+                        <span class="font-bold text-blue-400 mr-2">B.</span> puntos = [0, 0, 0, 0, 0, 0, 0, 0]
+                    </div>
+                    <div class="p-3 border-l-4 border-blue-500 bg-gray-800 rounded">
+                        <span class="font-bold text-blue-400 mr-2">C.</span> Valores numéricos CON coma, sean positivos o negativos.
+                    </div>
+                    <div class="p-3 border-l-4 border-blue-500 bg-gray-800 rounded font-mono">
+                        <span class="font-bold text-blue-400 mr-2">D.</span> suma = suma + puntos[i]
+                    </div>
+                    <div class="p-3 border-l-4 border-blue-500 bg-gray-800 rounded">
+                        <span class="font-bold text-blue-400 mr-2">E.</span> Conjunto de datos almacenados en lugares sucesivos de memoria bajo un único nombre.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Momento 2: Lectura de Código -->
+        <section class="bg-gray-800 rounded-xl p-6 mb-8 border border-gray-700 shadow-lg pdf-avoid-break">
+            <h3 class="text-xl font-bold text-green-400 mb-2 flex items-center">
+                <span class="bg-green-500 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-black">2</span>
+                Momento 2: Lectura del Código del Torneo
+            </h3>
+            <p class="text-gray-400 mb-4 text-sm">Lee atentamente el siguiente fragmento que calcula el promedio del torneo. Analiza qué hace cada línea, no necesitas escribir nada aquí.</p>
+            
+            <pre class="bg-gray-950 p-4 rounded-lg border border-gray-800 overflow-x-auto font-mono text-sm leading-relaxed text-gray-300">
+<span class="text-gray-500 italic"># FUNCIÓN DE PROMEDIO</span>
+<span class="text-blue-400 font-bold">def</span> <span class="text-yellow-300">promedioPuntajes</span>(puntos):
+    suma = <span class="text-purple-400">0</span>
+    <span class="text-blue-400 font-bold">for</span> i <span class="text-blue-400 font-bold">in</span> range(<span class="text-purple-400">0</span>, <span class="text-purple-400">8</span>):
+        suma = suma + puntos[i]
+    <span class="text-blue-400 font-bold">return</span> suma / <span class="text-purple-400">8</span>
+
+<span class="text-gray-500 italic"># PROGRAMA PRINCIPAL</span>
+puntajes = [<span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>, <span class="text-purple-400">0</span>] <span class="text-gray-500 italic"># Arreglo de 8 elementos</span>
+
+<span class="text-blue-400 font-bold">for</span> i <span class="text-blue-400 font-bold">in</span> range(<span class="text-purple-400">0</span>, <span class="text-purple-400">8</span>):
+    puntajes[i] = int(input(<span class="text-green-300">"Ingrese el puntaje del jugador "</span> + str(i+<span class="text-purple-400">1</span>) + <span class="text-green-300">": "</span>))
+
+print(<span class="text-green-300">"El promedio del torneo es: "</span> + str(promedioPuntajes(puntajes)))
+            </pre>
+        </section>
+
+        <!-- Momento 3: Completar el Código -->
+        <section class="bg-gray-800 rounded-xl p-6 mb-8 border border-gray-700 shadow-lg pdf-avoid-break">
+            <h3 class="text-xl font-bold text-green-400 mb-2 flex items-center">
+                <span class="bg-green-500 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-black">3</span>
+                Momento 3: Completar las Funciones
+            </h3>
+            <p class="text-gray-400 mb-6 text-sm">Al programador le faltó terminar tres funciones. Rellena los espacios en blanco basándote en la lógica de recorrido de arreglos (son 8 jugadores).</p>
+            
+            <div class="space-y-6">
+                <!-- A. Ganador -->
+                <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <h4 class="text-blue-400 font-bold mb-2">A. Encontrar al ganador (Puntaje más alto)</h4>
+                    <pre class="font-mono text-sm leading-8 overflow-x-auto text-gray-300 whitespace-pre-wrap"><span class="text-blue-400 font-bold">def</span> <span class="text-yellow-300">puntajeMasAlto</span>(puntos):
+    mayorPuntaje = puntos[<span class="text-purple-400">0</span>] 
+    <span class="text-blue-400 font-bold">for</span> i <span class="text-blue-400 font-bold">in</span> range(<span class="text-purple-400">1</span>, <input type="text" class="code-input w-16" placeholder="?">):
+        <span class="text-blue-400 font-bold">if</span>(puntos[<input type="text" class="code-input w-16" placeholder="?">] > mayorPuntaje):
+            mayorPuntaje = <input type="text" class="code-input w-24" placeholder="?">
+    <span class="text-blue-400 font-bold">return</span> mayorPuntaje</pre>
+                </div>
+
+                <!-- B. Finalistas -->
+                <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <h4 class="text-blue-400 font-bold mb-2">B. Jugadores que pasan a la final (Más de 1000 puntos)</h4>
+                    <pre class="font-mono text-sm leading-8 overflow-x-auto text-gray-300 whitespace-pre-wrap"><span class="text-blue-400 font-bold">def</span> <span class="text-yellow-300">finalistas</span>(puntos):
+    contador = <input type="text" class="code-input w-16" placeholder="?">
+    <span class="text-blue-400 font-bold">for</span> i <span class="text-blue-400 font-bold">in</span> range(<span class="text-purple-400">0</span>, <span class="text-purple-400">8</span>):
+        <span class="text-blue-400 font-bold">if</span>(puntos[i] <input type="text" class="code-input w-16" placeholder="?"> <span class="text-purple-400">1000</span>):
+            contador = contador + <span class="text-purple-400">1</span>
+    <span class="text-blue-400 font-bold">return</span> <input type="text" class="code-input w-24" placeholder="?"></pre>
+                </div>
+
+                <!-- C. Corregir -->
+                <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <h4 class="text-blue-400 font-bold mb-2">C. Corregir un puntaje</h4>
+                    <pre class="font-mono text-sm leading-8 overflow-x-auto text-gray-300 whitespace-pre-wrap"><span class="text-blue-400 font-bold">def</span> <span class="text-yellow-300">corregirPuntaje</span>(puntos):
+    nroJugador = int(input(<span class="text-green-300">"Ingrese NÚMERO DE JUGADOR (1 al 8): "</span>))
+    puntos[<input type="text" class="code-input w-32" placeholder="?">] = int(input(<span class="text-green-300">"Nuevo puntaje: "</span>))</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Momento 4: Verdadero o Falso -->
+        <section class="bg-gray-800 rounded-xl p-6 mb-8 border border-gray-700 shadow-lg pdf-avoid-break">
+            <h3 class="text-xl font-bold text-green-400 mb-2 flex items-center">
+                <span class="bg-green-500 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-black">4</span>
+                Momento 4: Verdadero o Falso
+            </h3>
+            <p class="text-gray-400 mb-6 text-sm">Determina si es V o F. Si es Falsa, justifica brevemente en el recuadro.</p>
+
+            <div class="space-y-6">
+                <!-- Q1 -->
+                <div class="p-4 bg-gray-900 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <p class="font-medium text-gray-200 mb-3">1. En el arreglo `puntajes = [0, 0, 0, 0, 0, 0, 0, 0]`, el primer dato ingresado se guarda en el elemento de índice 1.</p>
+                    <div class="flex flex-col md:flex-row gap-4 md:items-start">
+                        <div class="flex gap-4 min-w-[100px]">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q1" value="V" class="form-radio text-green-500 bg-gray-800 border-gray-600 focus:ring-green-500 h-5 w-5">
+                                <span>V</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q1" value="F" class="form-radio text-red-500 bg-gray-800 border-gray-600 focus:ring-red-500 h-5 w-5">
+                                <span>F</span>
+                            </label>
+                        </div>
+                        <textarea class="flex-1 text-sm h-12 resize-none placeholder-gray-500" placeholder="Si es falsa, justifica aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="p-4 bg-gray-900 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <p class="font-medium text-gray-200 mb-3">2. Si queremos guardar un nombre de jugador, deberíamos usar el tipo de dato "Cadenas (String)".</p>
+                    <div class="flex flex-col md:flex-row gap-4 md:items-start">
+                        <div class="flex gap-4 min-w-[100px]">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q2" value="V" class="form-radio text-green-500 bg-gray-800 border-gray-600 focus:ring-green-500 h-5 w-5">
+                                <span>V</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q2" value="F" class="form-radio text-red-500 bg-gray-800 border-gray-600 focus:ring-red-500 h-5 w-5">
+                                <span>F</span>
+                            </label>
+                        </div>
+                        <textarea class="flex-1 text-sm h-12 resize-none placeholder-gray-500" placeholder="Si es falsa, justifica aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="p-4 bg-gray-900 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <p class="font-medium text-gray-200 mb-3">3. El tamaño total del arreglo `puntajes` es 7.</p>
+                    <div class="flex flex-col md:flex-row gap-4 md:items-start">
+                        <div class="flex gap-4 min-w-[100px]">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q3" value="V" class="form-radio text-green-500 bg-gray-800 border-gray-600 focus:ring-green-500 h-5 w-5">
+                                <span>V</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q3" value="F" class="form-radio text-red-500 bg-gray-800 border-gray-600 focus:ring-red-500 h-5 w-5">
+                                <span>F</span>
+                            </label>
+                        </div>
+                        <textarea class="flex-1 text-sm h-12 resize-none placeholder-gray-500" placeholder="Si es falsa, justifica aquí..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="p-4 bg-gray-900 rounded-lg border border-gray-700 pdf-avoid-break">
+                    <p class="font-medium text-gray-200 mb-3">4. Algoritmos como Bubble Sort o Insertion Sort sirven para ordenar el arreglo de menor a mayor.</p>
+                    <div class="flex flex-col md:flex-row gap-4 md:items-start">
+                        <div class="flex gap-4 min-w-[100px]">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q4" value="V" class="form-radio text-green-500 bg-gray-800 border-gray-600 focus:ring-green-500 h-5 w-5">
+                                <span>V</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q4" value="F" class="form-radio text-red-500 bg-gray-800 border-gray-600 focus:ring-red-500 h-5 w-5">
+                                <span>F</span>
+                            </label>
+                        </div>
+                        <textarea class="flex-1 text-sm h-12 resize-none placeholder-gray-500" placeholder="Si es falsa, justifica aquí..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Momento 5: El Desafío del Error -->
+        <section class="bg-gray-800 rounded-xl p-6 mb-8 border border-gray-700 shadow-lg pdf-avoid-break">
+            <h3 class="text-xl font-bold text-green-400 mb-2 flex items-center">
+                <span class="bg-green-500 text-gray-900 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm font-black">5</span>
+                Momento 5: El Desafío del Error
+            </h3>
+            <div class="bg-gray-900 p-5 rounded-lg border border-red-500/30">
+                <p class="text-gray-200 mb-4 font-medium leading-relaxed">
+                    Si el arreglo `puntajes` tiene 8 elementos (cuyos índices van del 0 al 7), ¿qué sucedería en el programa si por error en el ciclo `for` escribimos <code class="bg-gray-800 px-1 py-0.5 text-red-400 rounded">for i in range(0, 9):</code> e intentamos acceder a la posición <code class="bg-gray-800 px-1 py-0.5 text-red-400 rounded">puntajes[8]</code>? ¿Por qué?
+                </p>
+                <textarea rows="4" class="w-full text-base placeholder-gray-500" placeholder="Escribe tu análisis y explicación aquí..."></textarea>
+            </div>
+        </section>
+
+    </div> <!-- Fin del contenedor del PDF -->
+
+    <!-- Botón de Descarga -->
+    <div class="max-w-4xl mx-auto px-4 pb-12 flex justify-center mt-4">
+        <button id="btn-download" onclick="window.print()" class="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-500 hover:to-blue-500 text-white font-bold py-4 px-8 rounded-full shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] transform hover:-translate-y-1 transition-all duration-300 flex items-center text-lg">
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <span id="btn-text">Imprimir / Guardar como PDF</span>
+        </button>
+    </div>
+
+    <!-- Script de Lógica para actualizar atributos DOM (Mejora compatibilidad al imprimir) -->
+    <script>
+        // Actualizar los atributos HTML cuando el usuario escribe para que window.print() 
+        // pueda capturar exactamente lo que completaron en los campos.
+        document.querySelectorAll('input[type="text"], textarea').forEach(el => {
+            el.addEventListener('input', function() {
+                this.setAttribute('value', this.value);
+                if(this.tagName.toLowerCase() === 'textarea') {
+                    this.textContent = this.value;
+                }
+            });
+        });
+
+        document.querySelectorAll('select').forEach(el => {
+            el.addEventListener('change', function() {
+                Array.from(this.options).forEach(opt => opt.removeAttribute('selected'));
+                if(this.selectedIndex > -1) {
+                    this.options[this.selectedIndex].setAttribute('selected', 'selected');
+                }
+            });
+        });
+
+        document.querySelectorAll('input[type="radio"]').forEach(el => {
+            el.addEventListener('change', function() {
+                const group = document.querySelectorAll(`input[name="${this.name}"]`);
+                group.forEach(radio => radio.removeAttribute('checked'));
+                this.setAttribute('checked', 'checked');
+            });
+        });
+    </script>
+</body>
+</html>
